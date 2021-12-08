@@ -1,0 +1,136 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>INDEX</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'stock:home' %}">Home</a></li>
+            <li class="breadcrumb-item active">Bank Trade Record</li>
+            <li class="breadcrumb-item"><a href="{% url 'stock:new_bank_trade' %}">Crate NEW</a></li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Bank Trade Record</h3>
+
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+            <i class="fas fa-minus"></i></button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+            <i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">
+                        #
+                    </th>
+                    <th style="width: 15%">
+                        Bank Trade Name
+                    </th>
+                    <th style="width: 10%">
+                        User
+                    </th>
+                    <th style="width: 10%">
+                        In Bank
+                    </th>
+                    <th style="width: 10%">
+                        Out Bank
+                    </th>
+                    <th style="width: 7%">
+                        Price
+                    </th>
+                    <th style="width: 7%">
+                        Fee
+                    </th>
+                    <th style="width: 20%" class="text-center">
+                        DATETIME
+                    </th>
+                    <th style="width: 20%">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for bank_trade in bank_trades %}
+                <tr>
+                    <td>
+                        #
+                    </td>
+                    <td>
+                        <a>{{ bank_trade.name }}</a>
+                    </td>
+                    <td>
+                      <a>{{ bank_trade.user.name }}</a>
+                    </td>
+                    <td>
+                      <a>{{ bank_trade.inbank.name }}</a>
+                    </td>
+                    <td>
+                      <a>{{ bank_trade.outbank.name }}</a>
+                    </td>
+                    {% if bank_trade.currency == 1 %}
+                    <td>
+                      <a>{{ bank_trade.price }}円</a>
+                    </td>
+                    {% elif bank_trade.currency == 2 %}
+                    <td>
+                      <a>${{ bank_trade.price }}</a>
+                    </td>
+                    {% endif %}
+                    <td>
+                      <a>{{ bank_trade.fee }}円</a>
+                    </td>
+                    <td>
+                      <a>{{ bank_trade.datetime }}</a>
+                    </td>
+                    <td class="project-actions text-right">
+                        <a class="btn btn-primary btn-sm" href="{% url 'stock:detail_bank_trade' bank_trade.id %}">
+                            <i class="fas fa-folder">
+                            </i>
+                            View
+                        </a>
+                        <a class="btn btn-info btn-sm" href="{% url 'stock:edit_bank_trade' bank_trade.id %}">
+                            <i class="fas fa-pencil-alt">
+                            </i>
+                            Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'stock:delete_bank_trade' bank_trade.pk %}">
+                            <i class="fas fa-trash">
+                            </i>
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

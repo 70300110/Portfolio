@@ -1,0 +1,77 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Create NEW</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'stock:home' %}">Home</a></li>
+            <li class="breadcrumb-item active">Stock Trade</li>
+            <li class="breadcrumb-item"><a href="{% url 'stock:new_stock_trade' %}">Crate NEW</a></li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+
+    <!-- Default box -->
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Stock Trade</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+            <i class="fas fa-minus"></i></button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+            <i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <!--Edit-mystyle-->
+      <form clsss="form-horizotal" method="POST" action="{% url 'stock:new_stock_trade' %}">{% csrf_token %}
+        <div class="card-body">
+          <label>Stock Trade</label>
+          {{ form.name }}
+          <label>User</label>
+          {{ form.user }}
+          <label>Stock</label>
+          {{ form2.stock }}
+          <label>Stock Company</label>
+          {{ form2.stock_company }}
+          <label>Stock Average Price</label>
+          {{ form2.price_ave }}
+          <label>Stock Quantity</label>
+          {{ form2.quantity }}
+          <label>Trade</label>
+          {{ form.trade }}
+          <label>Fee</label>
+          {{ form.fee }}
+          <label>Tax</label>
+          {{ form.tax }}
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-info">Submit</button>
+          <button type="reset" class="btn btn-default float-right">Clear</button>
+          <a class="btn btn-default float-right" href="{% url 'stock:index_stock_trade' %}">Back to INDEX</a>
+        </div>
+      </form>
+      <!--/Edit-mystyle-->
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

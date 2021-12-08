@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper bg-dark">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row justify-content-center">
+          <table class="table">
+              <tbody>
+                  <tr>
+                      <th>ユーザー名</th>
+                      <td>{{ user.email }}</td>
+                  </tr>
+                  <tr>
+                      <th>姓</th>
+                      <td>{{ user.last_name }}</td>
+                  </tr>
+                  <tr>
+                      <th>名</th>
+                      <td>{{ user.first_name }}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+<!-- /.content-wrapper -->
+{% endblock %}

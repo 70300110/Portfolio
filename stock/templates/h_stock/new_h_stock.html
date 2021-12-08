@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Create NEW</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'stock:home' %}">Home</a></li>
+            <li class="breadcrumb-item active">Holding Stock</li>
+            <li class="breadcrumb-item"><a href="{% url 'stock:new_h_stock' %}">Crate NEW</a></li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+
+    <!-- Default box -->
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Stock</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+            <i class="fas fa-minus"></i></button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+            <i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <!--Edit-mystyle-->
+      <form clsss="form-horizotal" method="POST" action="{% url 'stock:new_h_stock' %}">{% csrf_token %}
+        <div class="card-body">
+          <label>Stock</label>
+          {{ form.stock }}
+          <label>Stock Average Price</label>
+          {{ form.price_ave }}
+          <label>Stock Quantity</label>
+          {{ form.quantity }}
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-info">Submit</button>
+          <button type="reset" class="btn btn-default float-right">Clear</button>
+          <a class="btn btn-default float-right" href="{% url 'stock:index_h_stock' %}">Back to INDEX</a>
+        </div>
+      </form>
+      <!--/Edit-mystyle-->
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

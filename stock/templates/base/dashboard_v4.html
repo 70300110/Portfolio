@@ -1,0 +1,193 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="min-height: 500px;">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard v4</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v4</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          {% for stock in stockinfo %}
+          <div class="col-md-3">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">{{ stock.company }}</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                </div>
+                <!-- /.card-tools -->
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" style="display: block;">
+                <img class="bd-placeholder-img card-img-top" src="{{ stock.imageurl }}" >
+                <div class="d-flex">
+                  <p class="d-flex flex-column">
+                    <span class="text-bold text-lg">{{ stock.reason }}</span>
+                  </p>
+                  <p class="ml-auto d-flex flex-column text-right">
+                      {% if stock.percentage > 0 %}
+                      <span class="text-success">
+                        <i class="fas fa-arrow-up"></i><br>{{ stock.percentage }}%
+                      </span>
+                      {% elif stock.percentage == 0 %}
+                      <span class="text-warning">
+                        <i class="fas fa-arrow-left"></i><br>{{ stock.percentage }}%
+                      </span>
+                      {% elif stock.percentage < 0 %}
+                      <span class="text-danger">
+                        <i class="fas fa-arrow-down"></i><br>{{ stock.percentage }}%
+                      </span>
+                      {% endif %}
+                  </p>
+                </div>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer text-center">
+                <a href="{{ stock.outurl }}">Show More Info</a>
+              </div>
+              <!-- /.card-footer -->
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+<!-- /.content-wrapper -->
+
+{% endblock %}
+
+{% block script %}
+var endpoint = '/api/chart/data'
+var iratiourl = '/api/chart/iratio'
+var defaultData = []
+var labels = []
+var defaultData2 = []
+var labels2 = [];
+$.ajax({
+  method: "GET",
+  url: endpoint,
+  success: function(data){
+    labels = data.labels
+    defaultData = data.default
+    console.log(data)
+    setChart()
+  },
+  error: function(error_data){
+    console.log("error")
+    console.log(error_data)
+  }
+})
+
+$.ajax({
+  method: "GET",
+  url: iratiourl,
+  success: function(data){
+    labels2 = data.labels
+    defaultData2 = data.default
+    console.log(data)
+    InvestRatioChart()
+  },
+  error: function(error_data){
+    console.log("error")
+    console.log(error_data)
+  }
+})
+
+function setChart(){
+  var ctx = document.getElementById("myChart")
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Invest Ratio Chart',
+            data: defaultData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+}
+
+function InvestRatioChart(){
+  var iratioCanvas = document.getElementById("iratio")
+  var iratioData = {
+    labels: labels2,
+    datasets: [{
+      label: 'Testing',
+      data: defaultData2,
+      backgroundColor: [
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+      ],
+      borderColor: [
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(54, 162, 235, 1)',
+      ],
+      borderWidth: 2
+    }]
+  }
+  var iratioOptions = {
+    maintainAspectRatio : false,
+    responsive : true,
+  }
+
+  var iratio = new Chart(iratioCanvas, {
+    type : 'pie',
+    data: iratioData,
+    options: iratioOptions
+  })
+}
+
+{% endblock %}
